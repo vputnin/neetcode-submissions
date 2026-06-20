@@ -1,0 +1,55 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+class Solution {
+    public List<Integer> rightSideView(TreeNode root) {
+        // 52 8 implementation 10 syntax 11 error fixing: didn't implemet validation for null leafs "node.left != nul"
+        if(root == null) {
+            return new ArrayList<>();
+        }
+        List<Integer> result = new ArrayList<>();
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(root);
+
+        bfs(queue, 1, result);
+        return result;
+    }
+
+    void bfs(Queue<TreeNode> queue, int size, List<Integer> result) {
+        if(queue.size() == 0) {
+            return;
+        }
+
+        while(size > 0) {
+            TreeNode node = queue.poll();
+
+            if(node.left != null) {
+                queue.offer(node.left);
+            }
+            if(node.right != null) {
+                queue.offer(node.right);
+            }
+
+            if(size == 1) {
+                result.add(node.val);
+            } 
+            size--;
+        }
+
+        size = queue.size();
+        bfs(queue, size, result);
+    }
+}
